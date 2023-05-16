@@ -8,7 +8,12 @@ const Bookings = () => {
     const url = `http://localhost:3222/servicesBook?${user?.email}`
 
     useEffect(() => {
-        fetch(url)
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('car-access-token')}`
+            }
+        })
             .then(res => res.json())
             .then(data => setBookings(data))
     }, [url])
@@ -78,7 +83,7 @@ const Bookings = () => {
                         {/* row 1 */}
                         {
 
-                            bookings.map(booking => <BookingRow 
+                            bookings.map(booking => <BookingRow
                                 key={booking._id}
                                 booking={booking}
                                 handleDelete={handleDelete}
