@@ -31,13 +31,13 @@ const router = createBrowserRouter([
       {
         path: '/serviceBook/:id',
         element: <PrivateRoutes><ServicesBook></ServicesBook></PrivateRoutes>,
-        loader: ({ params }) => fetch(`http://localhost:3222/services/${params.id}`)
+        loader: ({ params }) => fetch(`https://car-doctor-server-three-mu.vercel.app/services/${params.id}`)
 
       },
       {
         path: '/checkout/:id',
         element: <CheckOut></CheckOut>,
-        loader: ({ params }) => fetch(`http://localhost:3222/services/${params.id}`)
+        loader: ({ params }) => fetch(`https://car-doctor-server-three-mu.vercel.app/services/${params.id}`)
       },
       {
         path: '/bookings',

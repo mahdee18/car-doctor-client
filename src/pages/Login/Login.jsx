@@ -2,42 +2,27 @@ import React, { useContext } from 'react';
 import bg from '../../assets/images/login/login.svg'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
+import SocialLogin from '../shared/SocialLogin/SocialLogin';
 const Login = () => {
-    const {signIn} = useContext(AuthContext)
+    const { signIn } = useContext(AuthContext)
     const navigate = useNavigate()
     const location = useLocation()
     const from = location?.state?.from?.pathname || '/'
-    const handleOnSubmit = event =>{
+    const handleOnSubmit = event => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email,password)
-        signIn(email,password)
-        .then(result=>{
-            const loggedUser = result.user;
-            console.log(loggedUser)
-            
-            const user = {
-                email: loggedUser.email
-            }
-            fetch('http://localhost:3222/jwt',{
-                method:'POST',
-                headers:{
-                    'content-type':'application/json'
-                },
-                body:JSON.stringify(user)
+        console.log(email, password)
+        signIn(email, password)
+            .then(result => {
+                const loggedUser = result.user;
+                console.log(loggedUser)
+                navigate(from, { replace: true })
             })
-            .then(res=> res.json())
-            .then(data=>{
-                console.log(data)
-                localStorage.setItem('car-access-token',data.token)
-                navigate(from,{replace:true})
+            .catch(error => {
+                console.error(error.message)
             })
-        })
-        .catch(error=>{
-            console.error(error.message)
-        })
     }
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -66,6 +51,8 @@ const Login = () => {
                             </div>
                         </form>
                         <p className='text-center'>New to Car doctor ? <Link to='/signup' className='text-orange-600'>Sign Up</Link></p>
+
+                        <SocialLogin></SocialLogin>
                     </div>
                 </div>
             </div>
